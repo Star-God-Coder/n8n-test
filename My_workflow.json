@@ -1,0 +1,179 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4aea6dd3-dd9e-4a24-9c79-5090d5a9ad4d",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "12Oo8rVB7ADfdga8rsedvgPhIoZcwM5k9x9NEfijP1hY",
+          "mode": "list",
+          "cachedResultName": "emails_prueba",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12Oo8rVB7ADfdga8rsedvgPhIoZcwM5k9x9NEfijP1hY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 575067602,
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12Oo8rVB7ADfdga8rsedvgPhIoZcwM5k9x9NEfijP1hY/edit#gid=575067602"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        240,
+        0
+      ],
+      "id": "7756b9b4-278d-4614-bc97-7d2db231d569",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "90H56VkD389FowL1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "Email, Nombre, Edad",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        460,
+        0
+      ],
+      "id": "8367058d-5564-4eac-b98f-e64666bedf8a",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "226157b7-6f48-43e2-9702-b772bae3a440",
+              "name": "Asunto",
+              "value": "=Hola {{$node[\"Split Out\"].json[\"Nombre\"]}}, tienes un mensaje importante",
+              "type": "string"
+            },
+            {
+              "id": "6711ca78-3014-43c9-b9f4-ab91817b50f0",
+              "name": "Cuerpo",
+              "value": "=Hola {{$node[\"Google Sheets\"].json[\"Nombre\"]}}, Espero que estés bien. Según nuestros registros, tienes {{$node[\"Google Sheets\"].json[\"Edad\"]}} años. Saludos.",
+              "type": "string"
+            },
+            {
+              "id": "7abdb499-316b-4cb7-b5e6-03410fade39e",
+              "name": "Destinatario",
+              "value": "={{$node[\"Google Sheets\"].json[\"Email\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        680,
+        0
+      ],
+      "id": "cf08e38a-8ab2-413e-aa38-0084d75497ab",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$node[\"Google Sheets\"].json[\"Email\"]}}",
+        "subject": "=Hola {{$node[\"Google Sheets\"].json[\"Nombre\"]}}, tienes un mensaje importante",
+        "message": "=Hola {{$node[\"Google Sheets\"].json[\"Nombre\"]}}, Espero que estés bien. Según nuestros registros, tienes {{$node[\"Google Sheets\"].json[\"Edad\"]}} años. Saludos.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        900,
+        0
+      ],
+      "id": "e65935dc-c188-4073-8624-0baf549f0a74",
+      "name": "Gmail",
+      "webhookId": "b1654429-05bd-42b3-9c9e-a5fc6083639f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "OYMPDYmSa6rP9a1J",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4f3a4dba-5a60-4356-8862-0c27e297272b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cdda2091f3241290bdb8939b7fe94a624958fb014dbd0770395ae86f8a9997a6"
+  },
+  "id": "S1hHmyUelqlufejb",
+  "tags": []
+}
