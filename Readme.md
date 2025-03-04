@@ -12,8 +12,9 @@ Este flujo de trabajo de n8n permite enviar correos electrónicos personalizados
 1. Clona este repositorio.
 2. Importa el archivo `workflow.json` en n8n.
 3. Configura las credenciales de correo electrónico y google sheets en n8n
-4. Carga el archivo `emails_prueba.xlsx` o reemplázalo con tu propio archivo Excel en tu google sheets.
+4. Carga el archivo `emails_prueba.xlsx` o reemplázalo con tu propio archivo Excel en tu google sheets(Deben ser Emails reales para que se pueda comprobar que funciona).
 5. Ejecuta el flujo de trabajo.
+   
 
 ## Estructura del archivo Excel
 El archivo Excel debe tener las siguientes columnas:
